@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4b321f">
+    <meta name="description" content="Analiza palabras, letras y menciones de personajes del Lazarillo de Tormes.">
+    <title>Lazarillo de Tormes | Analizador de texto</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">Una lectura del Siglo de Oro</p>
+        <h1>Lazarillo <span>de Tormes</span></h1>
+        <p class="intro">Explora el texto y descubre cuántas palabras, letras y menciones de sus personajes aparecen.</p>
+      </header>
+
+      <section class="panel" aria-labelledby="texto-titulo">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">El texto</p>
+            <h2 id="texto-titulo">Añade el libro</h2>
+          </div>
+          <button id="cargar-libro" class="button button-secondary" type="button">Cargar texto del libro</button>
+        </div>
+        <label for="texto">Pega o escribe un texto, o selecciona un archivo de texto plano.</label>
+        <textarea id="texto" spellcheck="false" placeholder="Escribe o pega aquí el texto que quieres analizar…" aria-describedby="ayuda-texto"></textarea>
+        <div class="input-footer">
+          <p id="ayuda-texto" class="hint">El análisis se realiza en tu navegador; el texto no se envía a ningún servidor.</p>
+          <input id="archivo" type="file" accept=".txt,text/plain">
+          <label class="button button-upload" for="archivo">Seleccionar archivo .txt</label>
+        </div>
+        <p id="estado" class="status" role="status" aria-live="polite">Carga el texto del libro o introduce un texto para comenzar.</p>
+      </section>
+
+      <section class="results" aria-labelledby="resultados-titulo">
+        <div class="results-heading">
+          <div>
+            <p class="eyebrow">Recuento</p>
+            <h2 id="resultados-titulo">Resultados</h2>
+          </div>
+          <p class="count-note">Para la mujer de Lázaro se cuentan «mujer de Lázaro», «mi mujer» y «tu mujer», sin distinguir mayúsculas.</p>
+        </div>
+
+        <div class="metric-grid" aria-live="polite" aria-atomic="true">
+          <article class="metric-card metric-featured">
+            <h3>Palabras</h3>
+            <output id="palabras">0</output>
+          </article>
+          <article class="metric-card">
+            <h3>Vocales</h3>
+            <output id="vocales">0</output>
+          </article>
+          <article class="metric-card">
+            <h3>Consonantes</h3>
+            <output id="consonantes">0</output>
+          </article>
+          <article class="metric-card">
+            <h3>Lázaro</h3>
+            <output id="lazaro">0</output>
+          </article>
+          <article class="metric-card">
+            <h3>ciego</h3>
+            <output id="ciego">0</output>
+          </article>
+          <article class="metric-card">
+            <h3>clérigo</h3>
+            <output id="clerigo">0</output>
+          </article>
+          <article class="metric-card">
+            <h3>arcipreste</h3>
+            <output id="arcipreste">0</output>
+          </article>
+          <article class="metric-card">
+            <h3>mujer de Lázaro</h3>
+            <output id="mujer-lazaro">0</output>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">«Yo por bien tengo que cosas tan señaladas…»</footer>
+    </main>
+  </body>
+</html>
