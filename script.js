@@ -2,7 +2,6 @@
 
 const textInput = document.getElementById("texto");
 const fileInput = document.getElementById("archivo");
-const loadBookButton = document.getElementById("cargar-libro");
 const statusMessage = document.getElementById("estado");
 
 const outputs = {
@@ -25,11 +24,15 @@ const characterPatterns = {
   blindMan: /(^|[^a-zñáéíóúü])ciego(?=$|[^a-zñáéíóúü])/g,
   cleric: /(^|[^a-zñáéíóúü])clérigo(?=$|[^a-zñáéíóúü])/g,
   archpriest: /(^|[^a-zñáéíóúü])arcipreste(?=$|[^a-zñáéíóúü])/g,
-  wife: /(^|[^a-zñáéíóúü])(?:mujer\s+de\s+lázaro|mi\mi+muger\s+mujer|tu\s+mujer)(?=$|[^a-zñáéíóúü])/g
+  wife: /(^|[^a-zñáéíóúü])(?:mujer\s+de\s+lázaro|mi+mujer)(?=$|[^a-zñáéíóúü])/g
 };
 
 function countMatches(text, pattern) {
   return Array.from(text.matchAll(pattern)).length;
+}
+
+function removeByteOrderMark(text) {
+  return text.replace(/^\uFEFF/, "");
 }
 
 function updateCounts() {
@@ -52,7 +55,7 @@ fileInput.addEventListener("change", async () => {
   if (!file) return;
 
   try {
-    textInput.value = await file.text();
+    textInput.value = removeByteOrderMark(await file.text());
     updateCounts();
     statusMessage.textContent = `Texto cargado: ${file.name}.`;
   } catch (error) {
@@ -60,22 +63,19 @@ fileInput.addEventListener("change", async () => {
   }
 });
 
-loadBookButton.addEventListener("click", async () => {
-  loadBookButton.disabled = true;
-  statusMessage.textContent = "Cargando el texto del libro…";
-
+async function loadBook() {
   try {
     const response = await fetch("lazarillo_limpio.txt");
     if (!response.ok) {
       throw new Error(`el servidor respondió con ${response.status}`);
     }
 
-    textInput.value = await response.text();
+    textInput.value = removeByteOrderMark(await response.text());
     updateCounts();
     statusMessage.textContent = "Texto del libro cargado correctamente.";
   } catch (error) {
     statusMessage.textContent = `No se pudo cargar lazarillo_limpio.txt. Comprueba que esté junto a la página y ábrela desde GitHub Pages o un servidor local. Detalle: ${error.message}`;
-  } finally {
-    loadBookButton.disabled = false;
   }
-});
+}
+
+loadBook();
