@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#4b321f">
     <meta name="description" content="Analiza palabras, letras y menciones de personajes del Lazarillo de Tormes.">
@@ -21,9 +21,8 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">El texto</p>
-            <h2 id="texto-titulo">Añade el libro</h2>
+            <h2 id="texto-titulo">Texto del libro</h2>
           </div>
-          <button id="cargar-libro" class="button button-secondary" type="button">Cargar texto del libro</button>
         </div>
         <label for="texto">Pega o escribe un texto, o selecciona un archivo de texto plano.</label>
         <textarea id="texto" spellcheck="false" placeholder="Escribe o pega aquí el texto que quieres analizar…" aria-describedby="ayuda-texto"></textarea>
@@ -32,7 +31,7 @@
           <input id="archivo" type="file" accept=".txt,text/plain">
           <label class="button button-upload" for="archivo">Seleccionar archivo .txt</label>
         </div>
-        <p id="estado" class="status" role="status" aria-live="polite">Carga el texto del libro o introduce un texto para comenzar.</p>
+        <p id="estado" class="status" role="status" aria-live="polite">Cargando el texto del libro…</p>
       </section>
 
       <section class="results" aria-labelledby="resultados-titulo">
