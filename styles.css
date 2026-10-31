@@ -155,8 +155,7 @@ textarea::placeholder {
 }
 
 .hint,
-.status,
-.count-note {
+.status {
   color: var(--muted-ink);
   font-size: 0.88rem;
   line-height: 1.5;
@@ -220,12 +219,6 @@ textarea::placeholder {
   align-items: end;
 }
 
-.count-note {
-  max-width: 23rem;
-  margin: 0;
-  text-align: right;
-}
-
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -280,10 +273,6 @@ textarea::placeholder {
   .results-heading {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .count-note {
-    text-align: left;
   }
 
   .input-footer {
