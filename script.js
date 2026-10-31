@@ -1,7 +1,6 @@
 "use strict";
 
 const textInput = document.getElementById("texto");
-const fileInput = document.getElementById("archivo");
 const statusMessage = document.getElementById("estado");
 
 const outputs = {
@@ -24,7 +23,7 @@ const characterPatterns = {
   blindMan: /(^|[^a-zñáéíóúü])ciego(?=$|[^a-zñáéíóúü])/g,
   cleric: /(^|[^a-zñáéíóúü])clérigo(?=$|[^a-zñáéíóúü])/g,
   archpriest: /(^|[^a-zñáéíóúü])arcipreste(?=$|[^a-zñáéíóúü])/g,
-  wife: /(^|[^a-zñáéíóúü])(?:mujer\s+de\s+lázaro|mi+mujer)(?=$|[^a-zñáéíóúü])/g
+  wife: /(^|[^a-zñáéíóúü])(?:mujer\s+de\s+lázaro|mi\s+mujer|tu\s+mujer)(?=$|[^a-zñáéíóúü])/g
 };
 
 function countMatches(text, pattern) {
@@ -50,20 +49,10 @@ function updateCounts() {
 
 textInput.addEventListener("input", updateCounts);
 
-fileInput.addEventListener("change", async () => {
-  const file = fileInput.files?.[0];
-  if (!file) return;
-
-  try {
-    textInput.value = removeByteOrderMark(await file.text());
-    updateCounts();
-    statusMessage.textContent = `Texto cargado: ${file.name}.`;
-  } catch (error) {
-    statusMessage.textContent = `No se pudo leer el archivo: ${error.message}`;
-  }
-});
-
 async function loadBook() {
+  textInput.value = removeByteOrderMark(window.LAZARILLO_TEXT);
+  updateCounts();
+
   try {
     const response = await fetch("lazarillo_limpio.txt");
     if (!response.ok) {
@@ -74,7 +63,7 @@ async function loadBook() {
     updateCounts();
     statusMessage.textContent = "Texto del libro cargado correctamente.";
   } catch (error) {
-    statusMessage.textContent = `No se pudo cargar lazarillo_limpio.txt. Comprueba que esté junto a la página y ábrela desde GitHub Pages o un servidor local. Detalle: ${error.message}`;
+    statusMessage.textContent = "Texto del libro cargado desde la copia incluida en la página.";
   }
 }
 
