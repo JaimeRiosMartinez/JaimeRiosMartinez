@@ -7,6 +7,7 @@
     <meta name="description" content="Analiza palabras, letras y menciones de personajes del Lazarillo de Tormes.">
     <title>Lazarillo de Tormes | Analizador de texto</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="lazarillo_data.js" defer></script>
     <script src="script.js" defer></script>
   </head>
   <body>
@@ -24,12 +25,10 @@
             <h2 id="texto-titulo">Texto del libro</h2>
           </div>
         </div>
-        <label for="texto">Pega o escribe un texto, o selecciona un archivo de texto plano.</label>
+        <label for="texto">Pega o escribe un texto para analizar.</label>
         <textarea id="texto" spellcheck="false" placeholder="Escribe o pega aquí el texto que quieres analizar…" aria-describedby="ayuda-texto"></textarea>
         <div class="input-footer">
-          <p id="ayuda-texto" class="hint">El análisis se realiza en tu navegador; el texto no se envía a ningún servidor.</p>
-          <input id="archivo" type="file" accept=".txt,text/plain">
-          <label class="button button-upload" for="archivo">Seleccionar archivo .txt</label>
+          <p id="ayuda-texto" class="hint">El libro viene incluido y se carga automáticamente. El análisis se realiza en tu navegador; el texto no se envía a ningún servidor.</p>
         </div>
         <p id="estado" class="status" role="status" aria-live="polite">Cargando el texto del libro…</p>
       </section>
