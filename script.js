@@ -1,70 +1,298 @@
-"use strict";
-
-const textInput = document.getElementById("texto");
-const statusMessage = document.getElementById("estado");
-
-const outputs = {
-  words: document.getElementById("palabras"),
-  vowels: document.getElementById("vocales"),
-  consonants: document.getElementById("consonantes"),
-  lazaro: document.getElementById("lazaro"),
-  blindMan: document.getElementById("ciego"),
-  cleric: document.getElementById("clerigo"),
-  archpriest: document.getElementById("arcipreste"),
-  wife: document.getElementById("mujer-lazaro")
-};
-
-const letters = "a-zñáéíóúü";
-const wordPattern = new RegExp(`[${letters}]+`, "g");
-const vowelPattern = /[aeiouáéíóúü]/g;
-const consonantPattern = /[bcdfghjklmnñpqrstvwxyz]/g;
-const characterPatterns = {
-  lazaro: /(^|[^a-zñáéíóúü])lázaro(?=$|[^a-zñáéíóúü])/g,
-  blindMan: /(^|[^a-zñáéíóúü])ciego(?=$|[^a-zñáéíóúü])/g,
-  cleric: /(^|[^a-zñáéíóúü])clérigo(?=$|[^a-zñáéíóúü])/g,
-  archpriest: /(^|[^a-zñáéíóúü])arcipreste(?=$|[^a-zñáéíóúü])/g,
-  wife: /(^|[^a-zñáéíóúü])(?:mujer\s+de\s+lázaro|mi\s+mujer|tu\s+mujer)(?=$|[^a-zñáéíóúü])/g
-};
-
-function countMatches(text, pattern) {
-  return Array.from(text.matchAll(pattern)).length;
+:root {
+  color-scheme: light;
+  font-family: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+  color: #34271c;
+  background: #efe2c4;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --ink: #34271c;
+  --muted-ink: #75634d;
+  --paper: #fbf4e4;
+  --border: #d9c49d;
+  --accent: #743d26;
+  --accent-dark: #542b1c;
 }
 
-function removeByteOrderMark(text) {
-  return text.replace(/^\uFEFF/, "");
+* {
+  box-sizing: border-box;
 }
 
-function updateCounts() {
-  const text = textInput.value.toLocaleLowerCase("es");
-  const matches = text.match(wordPattern) ?? [];
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  background:
+    radial-gradient(ellipse at 15% 10%, #fff8e5a8, transparent 42%),
+    repeating-linear-gradient(4deg, #9c774008 0 1px, transparent 1px 5px),
+    #efe2c4;
+}
 
-  outputs.words.value = matches.length.toLocaleString("es-ES");
-  outputs.vowels.value = countMatches(text, vowelPattern).toLocaleString("es-ES");
-  outputs.consonants.value = countMatches(text, consonantPattern).toLocaleString("es-ES");
+button,
+textarea {
+  font: inherit;
+}
 
-  for (const [key, pattern] of Object.entries(characterPatterns)) {
-    outputs[key].value = countMatches(text, pattern).toLocaleString("es-ES");
+.page {
+  width: min(100%, 68rem);
+  margin: 0 auto;
+}
+
+.hero {
+  padding: clamp(1.5rem, 6vw, 4rem) 1rem 2.5rem;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 0.55rem;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  color: var(--accent-dark);
+  font-size: clamp(2.4rem, 8vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+h1 span {
+  display: block;
+  color: #8b6741;
+  font-size: 0.56em;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.intro {
+  max-width: 38rem;
+  margin: 0 auto;
+  color: var(--muted-ink);
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.panel,
+.metric-card {
+  border: 1px solid var(--border);
+  background: var(--paper);
+  box-shadow: 0 0.5rem 1.6rem #54381912, inset 0 0 2rem #d5bd8b15;
+}
+
+.panel {
+  padding: clamp(1.2rem, 4vw, 2rem);
+  border-radius: 0.5rem;
+}
+
+.section-heading,
+.results-heading,
+.input-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.section-heading,
+.results-heading {
+  margin-bottom: 1.25rem;
+}
+
+h2 {
+  margin-bottom: 0;
+  color: var(--accent-dark);
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 500;
+}
+
+.panel label:not(.button) {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--muted-ink);
+  font-size: 0.95rem;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 14rem;
+  padding: 1rem;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  outline: none;
+  background: #fffaf0;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+textarea:focus-visible,
+.button:focus-visible {
+  outline: 3px solid #a66b38;
+  outline-offset: 3px;
+}
+
+textarea::placeholder {
+  color: #9b8b73;
+}
+
+.input-footer {
+  flex-wrap: wrap;
+  margin-top: 0.85rem;
+}
+
+.hint,
+.status,
+.count-note {
+  color: var(--muted-ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.hint {
+  margin: 0;
+}
+
+.status {
+  min-height: 1.4em;
+  margin: 0.8rem 0 0;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: center;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.button-secondary,
+.button-upload {
+  background: var(--accent);
+  color: #fff8eb;
+}
+
+.button-secondary:hover,
+.button-upload:hover {
+  background: var(--accent-dark);
+}
+
+#archivo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+#archivo:focus-visible + .button-upload {
+  outline: 3px solid #a66b38;
+  outline-offset: 3px;
+}
+
+.results {
+  margin-top: clamp(2rem, 6vw, 3.5rem);
+}
+
+.results-heading {
+  align-items: end;
+}
+
+.count-note {
+  max-width: 23rem;
+  margin: 0;
+  text-align: right;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.metric-card {
+  min-height: 7.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 0.35rem;
+}
+
+.metric-card h3 {
+  margin-bottom: 0.7rem;
+  color: var(--muted-ink);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.metric-card output {
+  color: var(--accent-dark);
+  font-size: clamp(1.7rem, 4vw, 2.25rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.metric-featured {
+  border-color: #b58a56;
+  background: #f4e6c9;
+}
+
+.footer {
+  padding: 2rem 1rem 0;
+  color: var(--muted-ink);
+  font-size: 0.95rem;
+  font-style: italic;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 1rem;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-textInput.addEventListener("input", updateCounts);
+@media (max-width: 480px) {
+  .section-heading,
+  .results-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 
-async function loadBook() {
-  textInput.value = removeByteOrderMark(window.LAZARILLO_TEXT);
-  updateCounts();
+  .count-note {
+    text-align: left;
+  }
 
-  try {
-    const response = await fetch("lazarillo_limpio.txt");
-    if (!response.ok) {
-      throw new Error(`el servidor respondió con ${response.status}`);
-    }
+  .input-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 
-    textInput.value = removeByteOrderMark(await response.text());
-    updateCounts();
-    statusMessage.textContent = "Texto del libro cargado correctamente.";
-  } catch (error) {
-    statusMessage.textContent = "Texto del libro cargado desde la copia incluida en la página.";
+  .button-secondary,
+  .button-upload {
+    width: 100%;
   }
 }
-
-loadBook();
