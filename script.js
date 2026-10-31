@@ -50,8 +50,14 @@ function updateCounts() {
 textInput.addEventListener("input", updateCounts);
 
 async function loadBook() {
-  textInput.value = removeByteOrderMark(window.LAZARILLO_TEXT);
-  updateCounts();
+  const bundledText = window.LAZARILLO_TEXT;
+  const hasBundledText = typeof bundledText === "string";
+
+  if (hasBundledText) {
+    textInput.value = removeByteOrderMark(bundledText);
+    updateCounts();
+    statusMessage.textContent = "Texto del libro cargado desde la copia incluida en la página.";
+  }
 
   try {
     const response = await fetch("lazarillo_limpio.txt");
@@ -63,7 +69,9 @@ async function loadBook() {
     updateCounts();
     statusMessage.textContent = "Texto del libro cargado correctamente.";
   } catch (error) {
-    statusMessage.textContent = "Texto del libro cargado desde la copia incluida en la página.";
+    if (!hasBundledText) {
+      statusMessage.textContent = `No se pudo cargar el texto del libro: ${error.message}`;
+    }
   }
 }
 
